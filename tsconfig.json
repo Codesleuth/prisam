@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["ES6"],
+    "target": "es2019",
+    "module": "es6",
+    "moduleResolution": "node",
+
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "noEmit": true,
+    "noEmitOnError": true,
+    "pretty": true,
+    "sourceMap": true
+  },
+  "include": ["src"]
+}
