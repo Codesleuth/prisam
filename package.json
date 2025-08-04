@@ -1,8 +1,10 @@
 {
-  "name": "prisam",
+  "name": "@codesleuth/prisam",
   "version": "0.0.1",
   "description": "A simple Prisma wrapper for adapter connections with retries",
-  "main": "index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "types": "dist/index.d.ts",
   "repository": "git@github.com:Codesleuth/prisam.git",
   "author": "David Wood <david.p.wood@gmail.com>",
   "license": "MIT",

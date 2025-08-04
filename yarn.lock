@@ -23,6 +23,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@codesleuth/prisam@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@codesleuth/prisam@workspace:."
+  dependencies:
+    "@prisma/driver-adapter-utils": "npm:^6.13.0"
+    "@rollup/plugin-node-resolve": "npm:^16.0.1"
+    "@rollup/plugin-typescript": "npm:^12.1.4"
+    "@types/node": "npm:22.x"
+    rollup: "npm:^4.46.2"
+    rollup-plugin-delete: "npm:^3.0.1"
+    rollup-plugin-dts: "npm:^6.2.1"
+    tslib: "npm:^2.8.1"
+    typescript: "npm:^5.9.2"
+  peerDependencies:
+    "@prisma/driver-adapter-utils": ^6
+  languageName: unknown
+  linkType: soft
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -1122,24 +1140,6 @@ __metadata:
   checksum: 10c0/9582c951e95eebee5434f59e426cddd228a7b97a0161a375aed4be244bd3fe8e3a31b846808ea14ef2c8a2527a6eeab7b3946a67d5979e81694654f939473ae2
   languageName: node
   linkType: hard
-
-"prisam@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "prisam@workspace:."
-  dependencies:
-    "@prisma/driver-adapter-utils": "npm:^6.13.0"
-    "@rollup/plugin-node-resolve": "npm:^16.0.1"
-    "@rollup/plugin-typescript": "npm:^12.1.4"
-    "@types/node": "npm:22.x"
-    rollup: "npm:^4.46.2"
-    rollup-plugin-delete: "npm:^3.0.1"
-    rollup-plugin-dts: "npm:^6.2.1"
-    tslib: "npm:^2.8.1"
-    typescript: "npm:^5.9.2"
-  peerDependencies:
-    "@prisma/driver-adapter-utils": ^6
-  languageName: unknown
-  linkType: soft
 
 "proc-log@npm:^5.0.0":
   version: 5.0.0
