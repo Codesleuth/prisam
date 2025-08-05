@@ -16,6 +16,7 @@ export default defineConfig([
       },
     ],
     plugins: [
+      del({ targets: "dist/es/*", hook: "buildStart", verbose: true }),
       typescript({
         sourceMap: true,
         declaration: true,
@@ -35,6 +36,7 @@ export default defineConfig([
       },
     ],
     plugins: [
+      del({ targets: "dist/cjs/*", hook: "buildStart", verbose: true }),
       typescript({
         sourceMap: true,
         declaration: false,
@@ -52,7 +54,7 @@ export default defineConfig([
     plugins: [
       dts(),
       del({
-        targets: "dist/es/types",
+        targets: "dist/es/types/*",
         hook: "buildEnd",
         verbose: true,
       }),

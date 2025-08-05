@@ -9,10 +9,7 @@
   "author": "David Wood <david.p.wood@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c",
-    "build:types": "rollup -c --environment BUILD_TYPES:true",
-    "clean": "rollup -c --environment CLEAN:true",
-    "prepack": "yarn build && yarn build:types && yarn clean"
+    "build": "rollup -c"
   },
   "devDependencies": {
     "@prisma/driver-adapter-utils": "^6.13.0",
