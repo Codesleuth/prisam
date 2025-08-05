@@ -13,9 +13,11 @@
     "test": "echo 'No tests defined'"
   },
   "devDependencies": {
+    "@prisma/client": "^6.13.0",
     "@prisma/driver-adapter-utils": "^6.13.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.4",
+    "@types/debug": "^4",
     "@types/node": "22.x",
     "rollup": "^4.46.2",
     "rollup-plugin-delete": "^3.0.1",
@@ -24,7 +26,11 @@
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
+    "@prisma/client": "^6",
     "@prisma/driver-adapter-utils": "^6"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.9.2",
+  "dependencies": {
+    "debug": "^4.4.1"
+  }
 }

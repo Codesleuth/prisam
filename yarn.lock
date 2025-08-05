@@ -27,16 +27,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@codesleuth/prisam@workspace:."
   dependencies:
+    "@prisma/client": "npm:^6.13.0"
     "@prisma/driver-adapter-utils": "npm:^6.13.0"
     "@rollup/plugin-node-resolve": "npm:^16.0.1"
     "@rollup/plugin-typescript": "npm:^12.1.4"
+    "@types/debug": "npm:^4"
     "@types/node": "npm:22.x"
+    debug: "npm:^4.4.1"
     rollup: "npm:^4.46.2"
     rollup-plugin-delete: "npm:^3.0.1"
     rollup-plugin-dts: "npm:^6.2.1"
     tslib: "npm:^2.8.1"
     typescript: "npm:^5.9.2"
   peerDependencies:
+    "@prisma/client": ^6
     "@prisma/driver-adapter-utils": ^6
   languageName: unknown
   linkType: soft
@@ -124,6 +128,21 @@ __metadata:
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
   checksum: 10c0/5bd7576bb1b38a47a7fc7b51ac9f38748e772beebc56200450c4a817d712232b8f1d3ef70532c80840243c657d491cf6a6be1e3a214cff907645819fdc34aadd
+  languageName: node
+  linkType: hard
+
+"@prisma/client@npm:^6.13.0":
+  version: 6.13.0
+  resolution: "@prisma/client@npm:6.13.0"
+  peerDependencies:
+    prisma: "*"
+    typescript: ">=5.1.0"
+  peerDependenciesMeta:
+    prisma:
+      optional: true
+    typescript:
+      optional: true
+  checksum: 10c0/6d3d181aa91265bd6a331069b1d8358d83f02ffea788121d19f051a58e9957ae2df68e10e5e9e01b389fb942e4c7fa0de27af95deac216dfff7182bf5d7befc0
   languageName: node
   linkType: hard
 
@@ -343,10 +362,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/debug@npm:^4":
+  version: 4.1.12
+  resolution: "@types/debug@npm:4.1.12"
+  dependencies:
+    "@types/ms": "npm:*"
+  checksum: 10c0/5dcd465edbb5a7f226e9a5efd1f399c6172407ef5840686b73e3608ce135eeca54ae8037dcd9f16bdb2768ac74925b820a8b9ecc588a58ca09eca6acabe33e2f
+  languageName: node
+  linkType: hard
+
 "@types/estree@npm:1.0.8, @types/estree@npm:^1.0.0":
   version: 1.0.8
   resolution: "@types/estree@npm:1.0.8"
   checksum: 10c0/39d34d1afaa338ab9763f37ad6066e3f349444f9052b9676a7cc0252ef9485a41c6d81c9c4e0d26e9077993354edf25efc853f3224dd4b447175ef62bdcc86a5
+  languageName: node
+  linkType: hard
+
+"@types/ms@npm:*":
+  version: 2.1.0
+  resolution: "@types/ms@npm:2.1.0"
+  checksum: 10c0/5ce692ffe1549e1b827d99ef8ff71187457e0eb44adbae38fdf7b9a74bae8d20642ee963c14516db1d35fa2652e65f47680fdf679dcbde52bbfadd021f497225
   languageName: node
   linkType: hard
 
@@ -489,7 +524,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.3.4":
+"debug@npm:4, debug@npm:^4.3.4, debug@npm:^4.4.1":
   version: 4.4.1
   resolution: "debug@npm:4.4.1"
   dependencies:
