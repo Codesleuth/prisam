@@ -1,25 +1,31 @@
-import type { getPrismaClient } from "@prisma/client/runtime/library";
-import type {
-  SqlDriverAdapter,
-  SqlDriverAdapterFactory,
-} from "@prisma/driver-adapter-utils";
+import type { SqlDriverAdapterFactory } from "@prisma/driver-adapter-utils";
 import debug from "debug";
 import { setTimeout as sleep } from "node:timers/promises";
 
 const log = debug("prisam");
 
-type PrismaClient = InstanceType<ReturnType<typeof getPrismaClient>>;
+type PrismaClientBasic = {
+  $executeRaw: (query: TemplateStringsArray, ...args: any[]) => Promise<any>;
+  $disconnect: () => Promise<void>;
+};
 
-export type PrismaClientBuilder<T extends PrismaClient> = (
+/**
+ * A builder function type for creating a Prisma client.
+ */
+export type PrismaClientBuilder<T extends PrismaClientBasic> = (
   adapter: SqlDriverAdapterFactory
 ) => T;
+
+/**
+ * A builder function type for creating an SqlDriverAdapterFactory.
+ */
 export type SqlDriverAdapterBuilder = () => SqlDriverAdapterFactory;
 
 /**
  * A pool for managing Prisma clients with automatic reconnection and error handling.
  * It creates a new Prisma client when needed and ensures that the connection is healthy.
  */
-export class PrismaPool<T extends PrismaClient> {
+export class PrismaPool<T extends PrismaClientBasic> {
   #clientBuilder: PrismaClientBuilder<T>;
   #adapterBuilder: SqlDriverAdapterBuilder;
 
@@ -38,23 +44,25 @@ export class PrismaPool<T extends PrismaClient> {
 
   async #getPoolInternal(): Promise<T> {
     let attempts = 0;
-    let driverAdapter: SqlDriverAdapter | undefined;
 
     while (attempts < 10) {
       try {
         log("Creating adapter");
         this.#adapter = this.#adapterBuilder();
 
-        driverAdapter = await this.#adapter.connect();
+        const driverAdapter = await this.#adapter.connect();
 
-        log("Executing test query");
-        await driverAdapter.executeRaw({
-          sql: "SELECT 1",
-          args: [],
-          argTypes: [],
-        });
-        await driverAdapter.dispose();
-        driverAdapter = undefined;
+        log("Executing test query on driver adapter");
+        try {
+          await driverAdapter.executeRaw({
+            sql: "SELECT 1",
+            args: [],
+            argTypes: [],
+          });
+        } finally {
+          log("Disposing of driver adapter after test query");
+          await driverAdapter.dispose();
+        }
 
         log("Creating Prisma client with adapter");
         this.#client = this.#clientBuilder(this.#adapter);
@@ -66,7 +74,7 @@ export class PrismaPool<T extends PrismaClient> {
         return this.#client;
       } catch (error) {
         try {
-          await driverAdapter?.dispose();
+          log("Disposing of Prisma client due to error");
           await this.#client?.$disconnect();
         } catch (disconnectError) {
           log("Failed to disconnect Prisma client", disconnectError);
