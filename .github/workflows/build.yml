@@ -1,0 +1,39 @@
+name: Build
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache-dependency-path: yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --immutable --immutable-cache
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Build the project
+        run: yarn build
+
+      - name: Package the project
+        run: yarn pack
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: prisam-package
+          path: package.tgz
