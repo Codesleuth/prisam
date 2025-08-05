@@ -9,7 +9,8 @@
   "author": "David Wood <david.p.wood@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test": "echo 'No tests defined'"
   },
   "devDependencies": {
     "@prisma/driver-adapter-utils": "^6.13.0",
