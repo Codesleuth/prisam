@@ -103,5 +103,12 @@ describe("PrismaPool", () => {
 
     expect(mockAdapterBuilder).toHaveBeenCalledTimes(10);
     expect(setTimeout).toHaveBeenCalledTimes(10);
+
+    await expect(prismaPool.getPool()).rejects.toThrow(
+      "Failed to connect to Prisma client after multiple attempts"
+    );
+
+    expect(mockAdapterBuilder).toHaveBeenCalledTimes(20);
+    expect(setTimeout).toHaveBeenCalledTimes(20);
   });
 });

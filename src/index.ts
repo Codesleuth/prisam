@@ -104,7 +104,9 @@ export class PrismaPool<T extends PrismaClientBasic = PrismaClientBasic> {
   public async getPool(): Promise<T> {
     if (!this.#poolGetterPromise) {
       this.#poolGetterPromise = this.#getPoolInternal();
-      return this.#poolGetterPromise;
+      return this.#poolGetterPromise.finally(() => {
+        this.#poolGetterPromise = undefined;
+      });
     } else {
       return this.#poolGetterPromise.then((pool) => {
         log("Returning existing Prisma pool");
