@@ -45,78 +45,49 @@ describe("PrismaPool", () => {
       mockAdapterBuilder
     );
 
-    const pool = await prismaPool.getPool();
+    const poolPromise1 = prismaPool.getPool();
+    const poolPromise2 = prismaPool.getPool();
+
+    const pool = await poolPromise1;
+    const pool2 = await poolPromise2;
+
+    expect(pool).toBe(pool2);
 
     expect(pool).toBe(mockClient);
     expect(mockClientBuilder).toHaveBeenCalledTimes(1);
     expect(mockAdapterBuilder).toHaveBeenCalledTimes(1);
+    expect(mockClient.$disconnect).not.toHaveBeenCalled();
+
+    await prismaPool.dispose();
+
+    expect(mockClient.$disconnect).toHaveBeenCalledTimes(1);
   });
 
-  it("should retry connection attempts up to 10 times when adapter connection fails", async () => {
-    const mockClientBuilder = vi.fn();
+  it("should retry connection attempts up to 10 times", async () => {
+    const error = new Error("Some error");
 
-    const error = new Error("Connection failed");
-
-    const mockSqlDriverAdapterFactory = {
-      connect: vi.fn().mockRejectedValueOnce(error),
-    } as Partial<SqlDriverAdapterFactory> as SqlDriverAdapterFactory;
-    const mockAdapterBuilder = vi
-      .fn()
-      .mockReturnValue(mockSqlDriverAdapterFactory);
-
-    vi.mocked(setTimeout).mockResolvedValue(undefined);
-
-    const prismaPool = new PrismaPool(mockClientBuilder, mockAdapterBuilder);
-
-    await expect(prismaPool.getPool()).rejects.toThrow(
-      "Failed to connect to Prisma client after multiple attempts"
-    );
-
-    expect(mockAdapterBuilder).toHaveBeenCalledTimes(10);
-    expect(setTimeout).toHaveBeenCalledTimes(10);
-  });
-
-  it("should retry connection attempts up to 10 times when adapter executeRaw fails", async () => {
-    const mockClientBuilder = vi.fn();
-
-    const error = new Error("ExecuteRaw failed");
+    const mockClient = {
+      $executeRaw: vi.fn().mockRejectedValue(error),
+      $disconnect: vi
+        .fn()
+        .mockRejectedValueOnce(error)
+        .mockResolvedValue(undefined),
+    };
+    const mockClientBuilder = vi.fn().mockReturnValue(mockClient);
 
     const mockSqlDriverAdapter = {
-      executeRaw: vi.fn().mockRejectedValueOnce(error),
-      dispose: vi.fn().mockResolvedValueOnce(undefined),
+      executeRaw: vi.fn().mockRejectedValueOnce(error).mockResolvedValue([]),
+      dispose: vi
+        .fn()
+        .mockRejectedValueOnce(error)
+        .mockResolvedValue(undefined),
     } as Partial<SqlDriverAdapter> as SqlDriverAdapter;
 
     const mockSqlDriverAdapterFactory = {
-      connect: vi.fn().mockResolvedValueOnce(mockSqlDriverAdapter),
-    } as Partial<SqlDriverAdapterFactory> as SqlDriverAdapterFactory;
-    const mockAdapterBuilder = vi
-      .fn()
-      .mockReturnValue(mockSqlDriverAdapterFactory);
-
-    vi.mocked(setTimeout).mockResolvedValue(undefined);
-
-    const prismaPool = new PrismaPool(mockClientBuilder, mockAdapterBuilder);
-
-    await expect(prismaPool.getPool()).rejects.toThrow(
-      "Failed to connect to Prisma client after multiple attempts"
-    );
-
-    expect(mockAdapterBuilder).toHaveBeenCalledTimes(10);
-    expect(setTimeout).toHaveBeenCalledTimes(10);
-  });
-
-  it("should retry connection attempts up to 10 times when adapter dispose fails", async () => {
-    const mockClientBuilder = vi.fn();
-
-    const error = new Error("ExecuteRaw failed");
-
-    const mockSqlDriverAdapter = {
-      executeRaw: vi.fn().mockResolvedValueOnce([]),
-      dispose: vi.fn().mockRejectedValueOnce(error),
-    } as Partial<SqlDriverAdapter> as SqlDriverAdapter;
-
-    const mockSqlDriverAdapterFactory = {
-      connect: vi.fn().mockResolvedValueOnce(mockSqlDriverAdapter),
+      connect: vi
+        .fn()
+        .mockRejectedValueOnce(error)
+        .mockResolvedValue(mockSqlDriverAdapter),
     } as Partial<SqlDriverAdapterFactory> as SqlDriverAdapterFactory;
     const mockAdapterBuilder = vi
       .fn()
