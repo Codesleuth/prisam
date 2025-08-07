@@ -25,3 +25,6 @@ jobs:
 
       - name: Run tests
         run: yarn test:ci
+
+      - name: Pack dry run
+        run: yarn pack --dry-run
