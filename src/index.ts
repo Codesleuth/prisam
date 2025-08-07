@@ -4,7 +4,7 @@ import { setTimeout as sleep } from "node:timers/promises";
 
 const log = debug("prisam");
 
-type PrismaClientBasic = {
+export type PrismaClientBasic = {
   $executeRaw: (query: TemplateStringsArray, ...args: any[]) => Promise<any>;
   $disconnect: () => Promise<void>;
 };
@@ -25,7 +25,7 @@ export type SqlDriverAdapterBuilder = () => SqlDriverAdapterFactory;
  * A pool for managing Prisma clients with automatic reconnection and error handling.
  * It creates a new Prisma client when needed and ensures that the connection is healthy.
  */
-export class PrismaPool<T extends PrismaClientBasic> {
+export class PrismaPool<T extends PrismaClientBasic = PrismaClientBasic> {
   #clientBuilder: PrismaClientBuilder<T>;
   #adapterBuilder: SqlDriverAdapterBuilder;
 
