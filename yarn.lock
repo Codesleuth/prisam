@@ -87,6 +87,9 @@ __metadata:
     vitest: "npm:^3.2.4"
   peerDependencies:
     "@prisma/driver-adapter-utils": ^6
+  peerDependenciesMeta:
+    "@prisma/driver-adapter-utils":
+      optional: true
   languageName: unknown
   linkType: soft
 
