@@ -1,6 +1,6 @@
 {
   "name": "@codesleuth/prisam",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple Prisma wrapper for adapter connections with retries",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
