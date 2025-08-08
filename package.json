@@ -33,5 +33,10 @@
   "packageManager": "yarn@4.9.2",
   "dependencies": {
     "debug": "^4.4.1"
+  },
+  "peerDependenciesMeta": {
+    "@prisma/driver-adapter-utils": {
+      "optional": true
+    }
   }
 }
