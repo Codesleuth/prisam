@@ -1,7 +1,7 @@
-# @codesleuth/prisam
+# @codesleuth/prisam [![CI](https://github.com/Codesleuth/prisam/actions/workflows/ci.yml/badge.svg)](https://github.com/Codesleuth/prisam/actions/workflows/ci.yml)
 
-> ![INFO]
-> Written with assistance from AI (GPT5).
+> [!NOTE]
+> _Written with assistance from AI (GPT5)._
 
 **_A tiny, zero-dependency wrapper that makes using Prisma driver adapters safe and predictable._**
 
@@ -34,7 +34,7 @@ npm install @codesleuth/prisam @prisma/adapter-pg
 
 ## Quick start
 
-Below is a minimal, framework-agnostic setup. Plug in your own adapter where indicated.
+Below is a minimal, SQL Server setup. Plug in your own adapter in place of `PrismaMssql`.
 
 ```ts
 import { PrismaPool } from "@codesleuth/prisam";
@@ -43,7 +43,7 @@ import { PrismaClient } from "@prisma/client";
 
 const pool = new PrismaPool<PrismaClient>(
   (adapter) => new PrismaClient({ adapter }),
-  () => new PrismaMssql(config)
+  () => new PrismaMssql({ server: 'localhost' })
 );
 ```
 
